@@ -1,0 +1,327 @@
+.main {
+  width: 100%;
+  background-color: var(--bg-dark);
+}
+
+/* Header section */
+.header {
+  padding: 4.5rem 1.5rem 3.5rem 1.5rem;
+  background-image: radial-gradient(circle at 50% 0%, rgba(59, 130, 246, 0.04) 0%, transparent 60%);
+  border-bottom: 1px solid var(--border-light);
+  text-align: center;
+}
+
+.headerContainer {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.title {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--text-bright);
+}
+
+.subtitle {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* Content section */
+.contentSection {
+  padding: 4.5rem 0;
+  width: 100%;
+}
+
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.gridContainer {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 3.5rem;
+  align-items: start;
+}
+
+.leftCol {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Form Styles */
+.formWidget {
+  padding: 2.5rem !important;
+}
+
+.contactForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.formGroupRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+@media (max-width: 600px) {
+  .formGroupRow {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.label {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-bright);
+}
+
+.input,
+.select,
+.textarea {
+  width: 100%;
+  background-color: var(--bg-input);
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  padding: 0.75rem;
+  color: var(--text-main);
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  transition: all var(--transition-fast);
+}
+
+.input:focus,
+.select:focus,
+.textarea:focus {
+  outline: none;
+  border-color: var(--border-focus);
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.1);
+}
+
+.select option {
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+}
+
+.textarea {
+  resize: vertical;
+}
+
+.submitBtn {
+  width: fit-content;
+  align-self: flex-start;
+}
+
+/* Form Success state */
+.successState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 2rem 0;
+  animation: scaleIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.successIcon {
+  color: var(--secondary);
+  margin-bottom: 1rem;
+  animation: bounceGlow 3s infinite ease-in-out;
+}
+
+@keyframes bounceGlow {
+  0%, 100% { transform: translateY(0); filter: drop-shadow(0 0 5px rgba(16, 185, 129, 0.2)); }
+  50% { transform: translateY(-5px); filter: drop-shadow(0 0 15px rgba(16, 185, 129, 0.5)); }
+}
+
+.successTitle {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text-bright);
+  margin-bottom: 0.75rem;
+}
+
+.successText {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  max-width: 480px;
+}
+
+/* Info Cards */
+.infoGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+@media (max-width: 600px) {
+  .infoGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.infoCard {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  padding: 1.25rem !important;
+}
+
+.infoIcon {
+  color: var(--primary);
+  background: rgba(59, 130, 246, 0.08);
+  padding: 0.4rem;
+  border-radius: 6px;
+  border: 1px solid rgba(59, 130, 246, 0.15);
+  box-sizing: content-box;
+}
+
+.infoCardTitle {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.infoCardText {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-bright);
+}
+
+/* Right FAQ Accordion Column */
+.rightCol {
+  display: flex;
+  flex-direction: column;
+}
+
+.faqHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.faqHeaderIcon {
+  color: var(--primary);
+}
+
+.faqTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-bright);
+}
+
+.faqSubtitle {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-bottom: 2rem;
+}
+
+.faqList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.faqItem {
+  padding: 0 !important;
+  overflow: hidden;
+  transition: all var(--transition-normal);
+}
+
+.faqItemActive {
+  border-color: var(--border-card-hover);
+  background: rgba(15, 22, 38, 0.9);
+}
+
+.faqTrigger {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: none;
+  border: none;
+  padding: 1.25rem 1.5rem;
+  cursor: pointer;
+  text-align: left;
+  gap: 1rem;
+  outline: none;
+}
+
+.faqQuestion {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-bright);
+  transition: color var(--transition-fast);
+}
+
+.faqTrigger:hover .faqQuestion {
+  color: var(--primary);
+}
+
+.faqArrow {
+  color: var(--text-muted);
+  transition: transform var(--transition-normal) cubic-bezier(0.16, 1, 0.3, 1);
+  flex-shrink: 0;
+}
+
+.faqArrowOpen {
+  transform: rotate(180deg);
+  color: var(--primary);
+}
+
+/* Accordion collapse mechanics */
+.faqContent {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height var(--transition-normal) cubic-bezier(0.16, 1, 0.3, 1),
+              opacity var(--transition-normal) ease-in-out;
+}
+
+.faqContentOpen {
+  max-height: 500px; /* high value that covers text comfortably */
+  opacity: 1;
+}
+
+.faqAnswer {
+  padding: 0 1.5rem 1.5rem 1.5rem;
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* Responsive breakdowns */
+@media (max-width: 1024px) {
+  .gridContainer {
+    grid-template-columns: 1fr;
+    gap: 3.5rem;
+  }
+}

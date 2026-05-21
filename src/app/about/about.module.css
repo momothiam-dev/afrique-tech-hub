@@ -1,0 +1,227 @@
+.main {
+  width: 100%;
+  background-color: var(--bg-dark);
+}
+
+/* Header section */
+.header {
+  padding: 4.5rem 1.5rem 3.5rem 1.5rem;
+  background-image: radial-gradient(circle at 50% 0%, rgba(59, 130, 246, 0.04) 0%, transparent 60%);
+  border-bottom: 1px solid var(--border-light);
+  text-align: center;
+}
+
+.headerContainer {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.title {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--text-bright);
+}
+
+.subtitle {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* Content section */
+.contentSection {
+  padding: 4.5rem 0;
+  width: 100%;
+}
+
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 5rem;
+}
+
+/* Mission Grid */
+.missionGrid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.missionTextCol {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.sectionTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text-bright);
+  margin-bottom: 0.5rem;
+}
+
+.titleIcon {
+  color: var(--primary);
+}
+
+.paragraph {
+  font-size: 1.05rem;
+  color: var(--text-main);
+  line-height: 1.7;
+}
+
+.statsCardCol {
+  width: 100%;
+}
+
+.statsCard {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.04) 0%, rgba(139, 92, 246, 0.04) 100%);
+  border-color: rgba(59, 130, 246, 0.15) !important;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 2.5rem !important;
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.25rem;
+}
+
+.statIcon {
+  color: var(--primary);
+  width: 24px;
+  height: 24px;
+  margin-bottom: 0.25rem;
+}
+
+.statNumber {
+  font-family: var(--font-heading);
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--text-bright);
+  line-height: 1;
+  background: var(--grad-neon);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.statLabel {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* Core Values */
+.valuesBlock {
+  width: 100%;
+}
+
+.textCenter {
+  justify-content: center;
+  margin-bottom: 2.5rem;
+}
+
+.valuesGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.valueCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1rem;
+  height: 100%;
+  padding: 2rem !important;
+}
+
+.valueIcon {
+  color: var(--primary);
+  background: rgba(59, 130, 246, 0.08);
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid rgba(59, 130, 246, 0.15);
+  box-sizing: content-box;
+}
+
+.valueTitle {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-bright);
+}
+
+.valueDesc {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* Join Banner */
+.joinBanner {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.03) 0%, rgba(139, 92, 246, 0.05) 100%);
+  border-color: rgba(59, 130, 246, 0.15) !important;
+  text-align: center;
+  padding: 3rem !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  max-width: 850px;
+  margin: 0 auto;
+}
+
+.joinTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-bright);
+}
+
+.joinText {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  max-width: 650px;
+}
+
+/* Responsive breakdowns */
+@media (max-width: 1024px) {
+  .missionGrid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+  
+  .statsCard {
+    flex-direction: row;
+    justify-content: space-around;
+  }
+  
+  .valuesGrid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .statsCard {
+    flex-direction: column;
+    gap: 2rem;
+  }
+}
