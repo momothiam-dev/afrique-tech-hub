@@ -45,15 +45,19 @@ export default function RootLayout({ children }) {
     <html lang="fr" data-theme="dark">
       <head>
         <meta name="google-site-verification" content="jzqb38HD-emPPu68PIybIxgT9N711K2zIuNfQmBTCXY" />
-        <!-- Google tag (gtag.js) -->
+        {/* Google tag (gtag.js) */}
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-69QYDPXNK6"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-69QYDPXNK6');
-</script>
-        <!-- Open Graph -->
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-69QYDPXNK6');
+            `,
+          }}
+        />
+        {/* Open Graph */}
         <meta property="og:title" content="Afrique Tech Hub — Tech, Bourses & Opportunités en Afrique" />
         <meta property="og:description" content="Apprenez le développement web, l'intelligence artificielle et découvrez les meilleures bourses d'études et opportunités de travail en ligne depuis l'Afrique francophone." />
         <meta property="og:image" content="/dark_tech_bg.png" />
