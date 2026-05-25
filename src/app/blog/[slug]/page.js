@@ -6,6 +6,42 @@ import AdSenseAd from '../../../components/AdSenseAd';
 import ShareButtons from './ShareButtons'; // Client component for sharing action
 import styles from './article.module.css';
 
+// Dynamic SEO metadata generator
+export async function generateMetadata({ params }) {
+  const { slug } = await params;
+  const article = articles.find((art) => art.slug === slug);
+
+  if (!article) {
+    return {
+      title: "Article non trouvé",
+    };
+  }
+
+  return {
+    title: article.title,
+    description: article.description,
+    alternates: {
+      canonical: `/blog/${article.slug}`,
+    },
+    openGraph: {
+      title: article.title,
+      description: article.description,
+      type: "article",
+      publishedTime: article.date,
+      authors: [article.author],
+      url: `https://afrique-tech-hub.vercel.app/blog/${article.slug}`,
+      images: [
+        {
+          url: "/dark_tech_bg.png",
+          width: 1200,
+          height: 630,
+          alt: article.title,
+        },
+      ],
+    },
+  };
+}
+
 // Critical for Next.js static export
 export function generateStaticParams() {
   return articles.map((art) => ({

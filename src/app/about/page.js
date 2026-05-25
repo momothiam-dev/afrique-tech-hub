@@ -2,6 +2,19 @@ import Link from 'next/link';
 import { Award, Target, Users, BookOpen, GraduationCap, Globe } from 'lucide-react';
 import styles from './about.module.css';
 
+export const metadata = {
+  title: "À Propos",
+  description: "Découvrez la mission d'Afrique Tech Hub : informer et former gratuitement la jeunesse francophone africaine aux métiers du numérique et aux opportunités de bourses.",
+  alternates: {
+    canonical: "/about",
+  },
+  openGraph: {
+    title: "À Propos — Afrique Tech Hub",
+    description: "Découvrez la mission d'Afrique Tech Hub : informer et former gratuitement la jeunesse francophone africaine aux métiers du numérique et aux opportunités de bourses.",
+    url: "https://afrique-tech-hub.vercel.app/about",
+  },
+};
+
 export default function About() {
   return (
     <div className={styles.main}>

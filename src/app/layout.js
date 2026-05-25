@@ -3,7 +3,11 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 
 export const metadata = {
-  title: "Afrique Tech Hub — Tech, Bourses & Opportunités en Afrique",
+  metadataBase: new URL('https://afrique-tech-hub.vercel.app'),
+  title: {
+    default: "Afrique Tech Hub — Tech, Bourses & Opportunités en Afrique",
+    template: "%s — Afrique Tech Hub"
+  },
   description: "Apprenez le développement web, l'intelligence artificielle et découvrez les meilleures bourses d'études et opportunités de travail en ligne depuis l'Afrique francophone.",
   keywords: [
     "comment gagner de l'argent en ligne Afrique",
@@ -27,6 +31,25 @@ export const metadata = {
   icons: {
     icon: "/favicon.ico",
   },
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "Afrique Tech Hub — Tech, Bourses & Opportunités en Afrique",
+    description: "Apprenez le développement web, l'intelligence artificielle et découvrez les meilleures bourses d'études et opportunités de travail en ligne depuis l'Afrique francophone.",
+    url: "https://afrique-tech-hub.vercel.app",
+    siteName: "Afrique Tech Hub",
+    images: [
+      {
+        url: "/dark_tech_bg.png",
+        width: 1200,
+        height: 630,
+        alt: "Afrique Tech Hub Banner",
+      },
+    ],
+    locale: "fr_FR",
+    type: "website",
+  },
   robots: {
     index: true,
     follow: true,
@@ -46,23 +69,17 @@ export default function RootLayout({ children }) {
       <head>
         <meta name="google-site-verification" content="jzqb38HD-emPPu68PIybIxgT9N711K2zIuNfQmBTCXY" />
         {/* Google tag (gtag.js) */}
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-69QYDPXNK6"></script>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-69QYDPXNK6"></script>
         <script
           dangerouslySetInnerHTML={{
             __html: `
               window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
+              window.gtag = function(){window.dataLayer.push(arguments);}
               gtag('js', new Date());
               gtag('config', 'G-69QYDPXNK6');
             `,
           }}
         />
-        {/* Open Graph */}
-        <meta property="og:title" content="Afrique Tech Hub — Tech, Bourses & Opportunités en Afrique" />
-        <meta property="og:description" content="Apprenez le développement web, l'intelligence artificielle et découvrez les meilleures bourses d'études et opportunités de travail en ligne depuis l'Afrique francophone." />
-        <meta property="og:image" content="/dark_tech_bg.png" />
-        <meta property="og:url" content="https://afrique-tech-47g2pjulb-momothiam-devs-projects.vercel.app/" />
-        <meta property="og:type" content="website" />
       </head>
       <body>
         <Header />

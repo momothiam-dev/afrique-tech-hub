@@ -1,6 +1,19 @@
 import Link from 'next/link';
-import { FileText, ChevronRight, FileCheck, Scale, AlertCircle } from 'lucide-react';
+import { FileText, ChevronRight } from 'lucide-react';
 import styles from '../privacy/legal.module.css'; // Re-use styling to minimize CSS footprint
+
+export const metadata = {
+  title: "Conditions Générales d'Utilisation",
+  description: "Lisez les conditions d'utilisation d'Afrique Tech Hub régissant l'accès à nos guides, tutoriels et opportunités.",
+  alternates: {
+    canonical: "/terms",
+  },
+  openGraph: {
+    title: "Conditions Générales d'Utilisation — Afrique Tech Hub",
+    description: "Lisez les conditions d'utilisation d'Afrique Tech Hub régissant l'accès à nos guides, tutoriels et opportunités.",
+    url: "https://afrique-tech-hub.vercel.app/terms",
+  },
+};
 
 export default function Terms() {
   return (

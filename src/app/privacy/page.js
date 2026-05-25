@@ -1,6 +1,19 @@
 import Link from 'next/link';
-import { Shield, ChevronRight, Lock, Eye, FileCheck } from 'lucide-react';
+import { Shield, ChevronRight } from 'lucide-react';
 import styles from './legal.module.css';
+
+export const metadata = {
+  title: "Politique de Confidentialité",
+  description: "Consultez la politique de confidentialité d'Afrique Tech Hub. Nous veillons à la protection de vos données personnelles et à la transparence.",
+  alternates: {
+    canonical: "/privacy",
+  },
+  openGraph: {
+    title: "Politique de Confidentialité — Afrique Tech Hub",
+    description: "Consultez la politique de confidentialité d'Afrique Tech Hub. Nous veillons à la protection de vos données personnelles et à la transparence.",
+    url: "https://afrique-tech-hub.vercel.app/privacy",
+  },
+};
 
 export default function Privacy() {
   return (
