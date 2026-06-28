@@ -72,6 +72,47 @@ export default function About() {
             </div>
           </div>
 
+          {/* Our Team / Authors */}
+          <div className={styles.teamBlock} style={{ marginTop: '4rem', marginBottom: '4rem' }}>
+            <h2 className={`${styles.sectionTitle} ${styles.textCenter}`}>
+              <Users size={22} className={styles.titleIcon} /> Notre Équipe Éditoriale
+            </h2>
+            <p className={styles.paragraph} style={{ textAlign: 'center', marginBottom: '2rem' }}>
+              Nos articles sont rédigés par des experts de l'industrie technologique africaine, avec une expérience concrète sur le terrain.
+            </p>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem' }}>
+              {/* Arona Diallo */}
+              <div className="glass-card" style={{ padding: '2rem', textAlign: 'center', borderRadius: '16px' }}>
+                <div style={{ width: '80px', height: '80px', borderRadius: '50%', background: 'var(--primary)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2rem', fontWeight: 'bold', margin: '0 auto 1rem' }}>AD</div>
+                <h3 style={{ fontSize: '1.25rem', fontWeight: '600', marginBottom: '0.5rem', color: 'var(--text-light)' }}>Arona Diallo</h3>
+                <p style={{ fontSize: '0.875rem', color: 'var(--primary)', marginBottom: '1rem', fontWeight: '500' }}>Expert E-commerce & Freelancing</p>
+                <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', lineHeight: '1.6' }}>
+                  Ancien consultant en stratégie digitale, Arona s'est spécialisé dans l'accompagnement des indépendants africains sur le marché international (Upwork, Comeup) et le déploiement de solutions e-commerce.
+                </p>
+              </div>
+
+              {/* Koffi Mensah */}
+              <div className="glass-card" style={{ padding: '2rem', textAlign: 'center', borderRadius: '16px' }}>
+                <div style={{ width: '80px', height: '80px', borderRadius: '50%', background: 'var(--secondary)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2rem', fontWeight: 'bold', margin: '0 auto 1rem' }}>KM</div>
+                <h3 style={{ fontSize: '1.25rem', fontWeight: '600', marginBottom: '0.5rem', color: 'var(--text-light)' }}>Koffi Mensah</h3>
+                <p style={{ fontSize: '0.875rem', color: 'var(--secondary)', marginBottom: '1rem', fontWeight: '500' }}>Ingénieur Logiciel & IA</p>
+                <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', lineHeight: '1.6' }}>
+                  Développeur Full-Stack passionné par le Machine Learning. Koffi partage ses connaissances techniques et son expérience du télétravail (remote) pour des startups européennes.
+                </p>
+              </div>
+
+              {/* Mariama Sow */}
+              <div className="glass-card" style={{ padding: '2rem', textAlign: 'center', borderRadius: '16px' }}>
+                <div style={{ width: '80px', height: '80px', borderRadius: '50%', background: 'var(--accent)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2rem', fontWeight: 'bold', margin: '0 auto 1rem' }}>MS</div>
+                <h3 style={{ fontSize: '1.25rem', fontWeight: '600', marginBottom: '0.5rem', color: 'var(--text-light)' }}>Mariama Sow</h3>
+                <p style={{ fontSize: '0.875rem', color: 'var(--accent)', marginBottom: '1rem', fontWeight: '500' }}>Spécialiste Orientation & Bourses</p>
+                <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', lineHeight: '1.6' }}>
+                  Diplômée en sciences de l'éducation au Canada grâce à une bourse d'excellence, Mariama décrypte les processus de candidature pour aider les jeunes talents africains à financer leurs études.
+                </p>
+              </div>
+            </div>
+          </div>
+
           {/* Core Values */}
           <div className={styles.valuesBlock}>
             <h2 className={`${styles.sectionTitle} ${styles.textCenter}`}>

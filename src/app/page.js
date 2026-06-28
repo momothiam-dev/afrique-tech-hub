@@ -141,6 +141,27 @@ export default function Home() {
               </div>
             </div>
 
+            {/* Editorial SEO Block for E-E-A-T and AdSense */}
+            <div className={`${styles.editorialBlock} glass-card`} style={{ marginTop: '3rem', padding: '2.5rem', borderRadius: '16px' }}>
+              <h2 className={styles.sectionTitle} style={{ marginBottom: '1.5rem' }}>
+                <Sparkles size={20} className={styles.titleIcon} /> L'Intelligence Numérique au Service de l'Afrique
+              </h2>
+              <div className={styles.richContent} style={{ color: 'var(--text-muted)', lineHeight: '1.7', fontSize: '1rem' }}>
+                <p style={{ marginBottom: '1rem' }}>
+                  <strong>Afrique Tech Hub</strong> est né d'un constat simple en 2026 : le continent africain regorge de talents brillants, mais l'accès à une information structurée, fiable et exempte d'arnaques reste un défi majeur. Notre plateforme indépendante a pour mission de démystifier l'économie numérique pour la jeunesse francophone.
+                </p>
+                <p style={{ marginBottom: '1rem' }}>
+                  Que vous cherchiez à vous reconvertir en tant que développeur full-stack, à comprendre les rouages du Machine Learning, à lancer une agence digitale sans capital initial (No-Code), ou à décrocher une bourse d'excellence pour étudier au Canada, nos experts décortiquent pour vous les meilleures stratégies. 
+                </p>
+                <p style={{ marginBottom: '1rem' }}>
+                  Nous croyons fermement au télétravail (remote work) comme vecteur de développement économique. Travailler depuis Dakar, Abidjan ou Douala pour des entreprises européennes n'est plus une utopie, c'est une réalité pour des milliers de professionnels de la tech que nous accompagnons à travers nos guides pratiques.
+                </p>
+                <p>
+                  Explorez nos dossiers, formez-vous continuellement et saisissez les opportunités offertes par le web mondial. L'avenir technologique de l'Afrique s'écrit maintenant, et il s'écrit avec vous.
+                </p>
+              </div>
+            </div>
+
           </div>
 
           {/* Sidebar Right */}

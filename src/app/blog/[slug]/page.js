@@ -217,8 +217,28 @@ export default async function Article({ params }) {
     year: 'numeric'
   });
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: article.title,
+    description: article.description,
+    author: {
+      '@type': 'Person',
+      name: article.author,
+    },
+    datePublished: article.date,
+    dateModified: article.date,
+    image: [
+      `https://afrique-tech-hub.vercel.app/dark_tech_bg.png`
+    ],
+  };
+
   return (
     <div className={styles.main}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Article Header Container */}
       <section className={styles.header}>
         <div className={styles.headerContainer}>
