@@ -2,10 +2,19 @@
 
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
-import { ArrowRight, BookOpen, Clock, Calendar, Sparkles, TrendingUp, Search, Mail, Send, Award } from 'lucide-react';
+import { ArrowRight, BookOpen, Clock, Calendar, Sparkles, TrendingUp, Search, Mail, Send, Award, Users, GraduationCap, Globe } from 'lucide-react';
 import { articles, categories } from '../data/articles';
+import { DevIllustration, AIIllustration, MoneyIllustration, ScholarshipIllustration, OppIllustration } from '../components/illustrations';
 import AdSenseAd from '../components/AdSenseAd';
 import styles from './page.module.css';
+
+const categoryIllustrations = {
+  dev: DevIllustration,
+  ia: AIIllustration,
+  money: MoneyIllustration,
+  scholarship: ScholarshipIllustration,
+  opp: OppIllustration,
+};
 
 export default function Home() {
   const [email, setEmail] = useState('');
@@ -83,21 +92,29 @@ export default function Home() {
                 <Award size={20} className={styles.titleIcon} /> Catégories Majeures
               </h2>
               <div className={styles.categoriesGrid}>
-                {categories.map((cat) => (
-                  <Link 
-                    key={cat.id} 
-                    href={`/blog?category=${cat.id}`}
-                    className={`${styles.categoryCard} glass-card`}
-                  >
-                    <span className={`badge ${cat.badgeClass} ${styles.catCardBadge}`}>
-                      {cat.name}
-                    </span>
-                    <p className={styles.catCardDesc}>{cat.description}</p>
-                    <span className={styles.catCardLink}>
-                      Voir les guides <ArrowRight size={12} />
-                    </span>
-                  </Link>
-                ))}
+                {categories.map((cat) => {
+                  const CatIllustration = categoryIllustrations[cat.id];
+                  return (
+                    <Link 
+                      key={cat.id} 
+                      href={`/category/${cat.id}`}
+                      className={`${styles.categoryCard} glass-card`}
+                    >
+                      {CatIllustration && (
+                        <div className={styles.catIllustration}>
+                          <CatIllustration size={80} />
+                        </div>
+                      )}
+                      <span className={`badge ${cat.badgeClass} ${styles.catCardBadge}`}>
+                        {cat.name}
+                      </span>
+                      <p className={styles.catCardDesc}>{cat.description}</p>
+                      <span className={styles.catCardLink}>
+                        Voir les guides <ArrowRight size={12} />
+                      </span>
+                    </Link>
+                  );
+                })}
               </div>
             </div>
 
@@ -159,6 +176,66 @@ export default function Home() {
                 <p>
                   Explorez nos dossiers, formez-vous continuellement et saisissez les opportunités offertes par le web mondial. L'avenir technologique de l'Afrique s'écrit maintenant, et il s'écrit avec vous.
                 </p>
+              </div>
+            </div>
+
+            {/* All Articles Section */}
+            <div style={{ marginTop: '3rem' }}>
+              <div className={styles.blockHeader}>
+                <h2 className={styles.sectionTitle}>
+                  <BookOpen size={20} className={styles.titleIcon} /> Tous nos Guides
+                </h2>
+                <Link href="/blog" className={styles.seeAllLink}>
+                  Voir tout <ArrowRight size={14} />
+                </Link>
+              </div>
+              <div className={styles.articlesGrid}>
+                {articles.slice(0, 8).map((art) => (
+                  <article key={art.id} className={`${styles.articleCard} glass-card`}>
+                    <div className={styles.cardHeader}>
+                      <span className={`badge ${getBadgeClass(art.category)}`}>
+                        {getCategoryName(art.category)}
+                      </span>
+                      <span className={styles.readTime}>
+                        <Clock size={12} /> {art.readTime}
+                      </span>
+                    </div>
+                    <h3 className={styles.cardTitle}>
+                      <Link href={`/blog/${art.slug}`}>{art.title}</Link>
+                    </h3>
+                    <p className={styles.cardDesc}>{art.description}</p>
+                    <div className={styles.cardFooter}>
+                      <span className={styles.author}>Par {art.author}</span>
+                      <Link href={`/blog/${art.slug}`} className={styles.readLink}>
+                        Lire l&apos;article <ArrowRight size={14} />
+                      </Link>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
+
+            {/* Stats Banner */}
+            <div className="glass-card" style={{ marginTop: '3rem', padding: '2.5rem', borderRadius: '16px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '2rem', textAlign: 'center' }}>
+              <div>
+                <BookOpen size={28} style={{ color: 'var(--primary)', marginBottom: '0.5rem' }} />
+                <div style={{ fontSize: '2rem', fontWeight: '800', color: 'var(--text-bright)' }}>20+</div>
+                <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>Guides complets</div>
+              </div>
+              <div>
+                <Users size={28} style={{ color: 'var(--secondary)', marginBottom: '0.5rem' }} />
+                <div style={{ fontSize: '2rem', fontWeight: '800', color: 'var(--text-bright)' }}>5</div>
+                <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>Catégories</div>
+              </div>
+              <div>
+                <GraduationCap size={28} style={{ color: 'var(--accent)', marginBottom: '0.5rem' }} />
+                <div style={{ fontSize: '2rem', fontWeight: '800', color: 'var(--text-bright)' }}>100%</div>
+                <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>Gratuit & Accessible</div>
+              </div>
+              <div>
+                <Globe size={28} style={{ color: 'var(--primary)', marginBottom: '0.5rem' }} />
+                <div style={{ fontSize: '2rem', fontWeight: '800', color: 'var(--text-bright)' }}>Afrique</div>
+                <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>Francophone ciblée</div>
               </div>
             </div>
 

@@ -3,7 +3,7 @@ import BlogContent from './BlogContent';
 
 export const metadata = {
   title: "Guides & Opportunités Digitales",
-  description: "Explorez notre catalogue de guides pratiques : développement web, intelligence artificielle, bourses d'études et opportunités de travail à distance en Afrique.",
+  description: "Explorez notre catalogue de 20+ guides pratiques : développement web, intelligence artificielle, bourses d'études et opportunités de travail à distance en Afrique francophone.",
   alternates: {
     canonical: "/blog",
   },
@@ -11,6 +11,11 @@ export const metadata = {
     title: "Guides & Opportunités Digitales — Afrique Tech Hub",
     description: "Explorez notre catalogue de guides pratiques : développement web, intelligence artificielle, bourses d'études et opportunités de travail à distance en Afrique.",
     url: "https://afrique-tech-hub.vercel.app/blog",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Guides & Opportunités Digitales — Afrique Tech Hub",
+    description: "Explorez notre catalogue de 20+ guides pratiques pour la jeunesse africaine francophone.",
   },
 };
 

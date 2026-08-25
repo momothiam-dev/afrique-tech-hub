@@ -137,6 +137,13 @@
   height: 100%;
 }
 
+.catIllustration {
+  display: flex;
+  justify-content: center;
+  margin-bottom: -0.5rem;
+  opacity: 0.85;
+}
+
 .catCardBadge {
   width: fit-content;
 }

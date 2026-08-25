@@ -2,7 +2,12 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Clock, Calendar, ArrowLeft, ChevronRight, BookOpen, User } from 'lucide-react';
 import { articles, categories } from '../../../data/articles';
+import { articleVisuals } from '../../../data/articleVisuals';
 import AdSenseAd from '../../../components/AdSenseAd';
+import CodeBlock from '../../../components/CodeBlock';
+import StepGuide from '../../../components/StepGuide';
+import ComparisonTable from '../../../components/ComparisonTable';
+import Infographic from '../../../components/Infographic';
 import ShareButtons from './ShareButtons'; // Client component for sharing action
 import styles from './article.module.css';
 
@@ -39,6 +44,12 @@ export async function generateMetadata({ params }) {
         },
       ],
     },
+    twitter: {
+      card: "summary_large_image",
+      title: article.title,
+      description: article.description,
+      images: ["/dark_tech_bg.png"],
+    },
   };
 }
 
@@ -50,11 +61,13 @@ export function generateStaticParams() {
 }
 
 // Custom simple parser to transform markdown-like strings to HTML tags securely
-function parseContentToHtml(content) {
+function parseContentToHtml(content, slug) {
   const lines = content.split('\n');
   const renderedElements = [];
   let currentList = [];
   let inList = false;
+  const visuals = articleVisuals[slug];
+  let afterContentAdded = false;
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i].trim();
@@ -82,6 +95,19 @@ function parseContentToHtml(content) {
       const text = line.replace('## ', '');
       const id = text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
       renderedElements.push(<h2 key={`h2-${i}`} id={id} className={styles.articleH2}>{text}</h2>);
+      
+      // Inject visual blocks after specific headings
+      if (visuals?.infographics) {
+        visuals.infographics.forEach((block, vi) => {
+          if (block.position === 'after-heading' && block.headingId === id) {
+            renderedElements.push(
+              <div key={`vis-h2-${i}-${vi}`} className={styles.visualBlock}>
+                {block.component}
+              </div>
+            );
+          }
+        });
+      }
     }
     // H3 Headings
     else if (line.startsWith('### ')) {
@@ -125,6 +151,19 @@ function parseContentToHtml(content) {
   // Push final list if hanging
   if (inList && currentList.length > 0) {
     renderedElements.push(<ul key="ul-final" className={styles.articleList}>{currentList}</ul>);
+  }
+
+  // Inject after-content visual blocks
+  if (visuals?.infographics) {
+    visuals.infographics.forEach((block, vi) => {
+      if (block.position === 'after-content') {
+        renderedElements.push(
+          <div key={`vis-after-${vi}`} className={styles.visualBlock}>
+            {block.component}
+          </div>
+        );
+      }
+    });
   }
 
   return renderedElements;
@@ -285,7 +324,7 @@ export default async function Article({ params }) {
 
             {/* Parsed Rich Content */}
             <div className={styles.richContent}>
-              {parseContentToHtml(article.content)}
+              {parseContentToHtml(article.content, slug)}
             </div>
 
             {/* Bottom simulated ad unit (horizontal) */}

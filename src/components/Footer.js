@@ -58,7 +58,7 @@ export default function Footer() {
             <ul className={styles.list}>
               {categories.map((cat) => (
                 <li key={cat.id}>
-                  <Link href={`/blog?category=${cat.id}`} className={styles.link}>
+                  <Link href={`/category/${cat.id}`} className={styles.link}>
                     {cat.name}
                   </Link>
                 </li>

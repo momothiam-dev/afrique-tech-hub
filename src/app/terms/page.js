@@ -13,6 +13,11 @@ export const metadata = {
     description: "Lisez les conditions d'utilisation d'Afrique Tech Hub régissant l'accès à nos guides, tutoriels et opportunités.",
     url: "https://afrique-tech-hub.vercel.app/terms",
   },
+  twitter: {
+    card: "summary",
+    title: "Conditions Générales d'Utilisation — Afrique Tech Hub",
+    description: "Lisez les conditions d'utilisation d'Afrique Tech Hub.",
+  },
 };
 
 export default function Terms() {

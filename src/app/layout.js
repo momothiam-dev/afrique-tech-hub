@@ -50,6 +50,13 @@ export const metadata = {
     locale: "fr_FR",
     type: "website",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Afrique Tech Hub — Tech, Bourses & Opportunités en Afrique",
+    description: "Apprenez le développement web, l'intelligence artificielle et découvrez les meilleures bourses d'études et opportunités de travail en ligne depuis l'Afrique francophone.",
+    images: ["/dark_tech_bg.png"],
+    creator: "@AfriqueTechHub",
+  },
   robots: {
     index: true,
     follow: true,
@@ -64,10 +71,54 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+  const organizationJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'Afrique Tech Hub',
+    url: 'https://afrique-tech-hub.vercel.app',
+    logo: 'https://afrique-tech-hub.vercel.app/dark_tech_bg.png',
+    description: 'Plateforme éducative dédiée à la jeunesse francophone africaine : développement web, intelligence artificielle, bourses d\'études et opportunités de freelancing.',
+    foundingDate: '2026',
+    sameAs: [],
+    contactPoint: {
+      '@type': 'ContactPoint',
+      email: 'contact@afriquetechhub.com',
+      contactType: 'customer service',
+      availableLanguage: 'French',
+    },
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Dakar',
+      addressCountry: 'SN',
+    },
+  };
+
+  const websiteJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Afrique Tech Hub',
+    url: 'https://afrique-tech-hub.vercel.app',
+    description: 'Apprenez le développement web, l\'intelligence artificielle et découvrez les meilleures bourses d\'études et opportunités de travail en ligne depuis l\'Afrique francophone.',
+    inLanguage: 'fr',
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: 'https://afrique-tech-hub.vercel.app/blog?search={search_term_string}',
+      'query-input': 'required name=search_term_string',
+    },
+  };
+
   return (
     <html lang="fr" data-theme="dark">
       <head>
         <meta name="google-site-verification" content="jzqb38HD-emPPu68PIybIxgT9N711K2zIuNfQmBTCXY" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+        />
         {/* Google tag (gtag.js) */}
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-69QYDPXNK6"></script>
         <script

@@ -13,6 +13,11 @@ export const metadata = {
     description: "Découvrez la mission d'Afrique Tech Hub : informer et former gratuitement la jeunesse francophone africaine aux métiers du numérique et aux opportunités de bourses.",
     url: "https://afrique-tech-hub.vercel.app/about",
   },
+  twitter: {
+    card: "summary",
+    title: "À Propos — Afrique Tech Hub",
+    description: "Découvrez la mission d'Afrique Tech Hub : informer et former gratuitement la jeunesse francophone africaine aux métiers du numérique.",
+  },
 };
 
 export default function About() {

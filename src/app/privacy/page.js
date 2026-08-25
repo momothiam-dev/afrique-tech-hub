@@ -4,7 +4,7 @@ import styles from './legal.module.css';
 
 export const metadata = {
   title: "Politique de Confidentialité",
-  description: "Consultez la politique de confidentialité d'Afrique Tech Hub. Nous veillons à la protection de vos données personnelles et à la transparence.",
+  description: "Consultez la politique de confidentialité d'Afrique Tech Hub. Nous veillons à la protection de vos données personnelles et à la transparence conformément au RGPD.",
   alternates: {
     canonical: "/privacy",
   },
@@ -12,6 +12,11 @@ export const metadata = {
     title: "Politique de Confidentialité — Afrique Tech Hub",
     description: "Consultez la politique de confidentialité d'Afrique Tech Hub. Nous veillons à la protection de vos données personnelles et à la transparence.",
     url: "https://afrique-tech-hub.vercel.app/privacy",
+  },
+  twitter: {
+    card: "summary",
+    title: "Politique de Confidentialité — Afrique Tech Hub",
+    description: "Consultez la politique de confidentialité d'Afrique Tech Hub. Protection des données et transparence.",
   },
 };
 

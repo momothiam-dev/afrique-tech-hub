@@ -180,6 +180,10 @@
   color: #38bdf8;
 }
 
+.visualBlock {
+  margin: 2rem 0;
+}
+
 /* Share block */
 .shareBlock {
   margin-top: 3.5rem;
