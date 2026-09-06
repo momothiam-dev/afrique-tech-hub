@@ -257,7 +257,7 @@ export default function Home() {
                     className={styles.searchInput}
                   />
                 </div>
-                <button type="submit" className="btn btn-primary styles.searchBtn">
+                <button type="submit" className={`btn btn-primary ${styles.searchBtn}`}>
                   Rechercher
                 </button>
               </form>
@@ -312,7 +312,7 @@ export default function Home() {
                     onChange={(e) => setEmail(e.target.value)}
                     className={styles.newsletterInput}
                   />
-                  <button type="submit" className="btn btn-primary styles.newsletterBtn">
+                  <button type="submit" className={`btn btn-primary ${styles.newsletterBtn}`}>
                     Rejoindre le Club <Send size={14} />
                   </button>
                 </form>

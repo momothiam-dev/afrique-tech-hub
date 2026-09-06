@@ -1,6 +1,8 @@
 import "./globals.css";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import BackToTop from "../components/BackToTop";
+import SiteScripts from "../components/SiteScripts";
 
 export const metadata = {
   metadataBase: new URL('https://afrique-tech-hub.vercel.app'),
@@ -108,8 +110,28 @@ export default function RootLayout({ children }) {
   };
 
   return (
-    <html lang="fr" data-theme="dark">
+    <html lang="fr" data-theme="dark" suppressHydrationWarning>
       <head>
+        <meta name="color-scheme" content="dark light" />
+        <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#070a13" />
+        <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8fafc" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        {/* Apply saved theme before first paint to avoid a flash of the wrong theme */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function () {
+                try {
+                  var saved = localStorage.getItem('afh-theme');
+                  if (saved === 'light' || saved === 'dark') {
+                    document.documentElement.setAttribute('data-theme', saved);
+                  }
+                } catch (err) {}
+              })();
+            `,
+          }}
+        />
         <meta name="google-site-verification" content="jzqb38HD-emPPu68PIybIxgT9N711K2zIuNfQmBTCXY" />
         <script
           type="application/ld+json"
@@ -119,29 +141,14 @@ export default function RootLayout({ children }) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
         />
-        {/* Google tag (gtag.js) */}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-69QYDPXNK6"></script>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              window.gtag = function(){window.dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'G-69QYDPXNK6');
-            `,
-          }}
-        />
-        {/* Google AdSense */}
-        <script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6305468777731932"
-          crossOrigin="anonymous"
-        ></script>
       </head>
       <body>
         <Header />
         <main>{children}</main>
         <Footer />
+        <BackToTop />
+        {/* Analytics loaded outside React's tree to avoid hydration mismatches */}
+        <SiteScripts />
       </body>
     </html>
   );

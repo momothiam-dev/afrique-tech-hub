@@ -2,6 +2,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap');
 
 :root {
+  color-scheme: dark;
+
   /* Premium Dark Tech Palette */
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-heading: 'Outfit', var(--font-sans);
@@ -55,6 +57,7 @@
 
 /* Light Theme overrides (Smooth Dark-Light Toggle or clean adaptive view) */
 [data-theme='light'] {
+  color-scheme: light;
   --bg-dark: #f8fafc;
   --bg-card: #ffffff;
   --bg-card-hover: #f1f5f9;
@@ -91,6 +94,7 @@ html {
   font-size: 16px;
   scroll-behavior: smooth;
   height: 100%;
+  scroll-padding-top: 90px; /* offset for sticky header when jumping to anchors */
 }
 
 body {

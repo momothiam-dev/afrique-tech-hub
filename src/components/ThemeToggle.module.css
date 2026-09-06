@@ -1,0 +1,28 @@
+.toggleBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-light);
+  color: var(--text-main);
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.toggleBtn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-bright);
+}
+
+[data-theme='light'] .toggleBtn {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+[data-theme='light'] .toggleBtn:hover {
+  background: rgba(0, 0, 0, 0.09);
+  color: var(--text-bright);
+}

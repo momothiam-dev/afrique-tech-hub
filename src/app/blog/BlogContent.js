@@ -138,7 +138,7 @@ export default function BlogContent() {
               {searchQuery && (
                 <button
                   type="button"
-                  onClick={() => { setSearchQuery(''); router.push(`/blog?category=${activeCategory}`); }}
+                  onClick={() => { setSearchQuery(''); if (activeCategory === 'all') { router.push('/blog'); } else { router.push(`/blog?category=${activeCategory}`); } }}
                   className={styles.searchClear}
                   aria-label="Effacer la recherche"
                 >
@@ -146,7 +146,7 @@ export default function BlogContent() {
                 </button>
               )}
             </div>
-            <button type="submit" className="btn btn-primary styles.searchBtn">
+            <button type="submit" className={`btn btn-primary ${styles.searchBtn}`}>
               Filtrer
             </button>
           </form>

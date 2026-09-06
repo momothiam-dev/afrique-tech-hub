@@ -9,6 +9,7 @@ import StepGuide from '../../../components/StepGuide';
 import ComparisonTable from '../../../components/ComparisonTable';
 import Infographic from '../../../components/Infographic';
 import ShareButtons from './ShareButtons'; // Client component for sharing action
+import ReadingProgress from '../../../components/ReadingProgress';
 import styles from './article.module.css';
 
 // Dynamic SEO metadata generator
@@ -25,6 +26,7 @@ export async function generateMetadata({ params }) {
   return {
     title: article.title,
     description: article.description,
+    keywords: article.seoKeywords,
     alternates: {
       canonical: `/blog/${article.slug}`,
     },
@@ -274,6 +276,7 @@ export default async function Article({ params }) {
 
   return (
     <div className={styles.main}>
+      <ReadingProgress />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

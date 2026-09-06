@@ -6,7 +6,7 @@
 .hero {
   position: relative;
   padding: 6rem 1.5rem;
-  background-color: #0b0f19;
+  background-color: var(--bg-card);
   background-image: 
     radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.08) 0%, transparent 40%),
     radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.08) 0%, transparent 40%);
@@ -21,7 +21,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: radial-gradient(circle at center, transparent 0%, #070a13 100%);
+  background: radial-gradient(circle at center, transparent 0%, var(--bg-dark) 100%);
   pointer-events: none;
 }
 
@@ -309,6 +309,10 @@
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+}
+
+.searchBtn {
+  width: 100%;
 }
 
 .searchInputWrapper {

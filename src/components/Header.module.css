@@ -92,6 +92,12 @@
   box-shadow: 0 0 15px rgba(59, 130, 246, 0.05);
 }
 
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .mobileToggle {
   display: none;
   background: none;
@@ -106,6 +112,8 @@
 .mobileToggle:hover {
   background: rgba(255, 255, 255, 0.05);
 }
+
+
 
 .mobileDrawer {
   position: fixed;

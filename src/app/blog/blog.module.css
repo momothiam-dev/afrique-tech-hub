@@ -61,7 +61,7 @@
 
 /* Controls section */
 .controlsSection {
-  background-color: rgba(15, 22, 38, 0.3);
+  background-color: var(--bg-glass);
   border-bottom: 1px solid var(--border-light);
   padding: 1.5rem 1.5rem;
 }
@@ -113,6 +113,10 @@
   gap: 0.5rem;
   flex-grow: 1;
   max-width: 450px;
+}
+
+.searchBtn {
+  flex-shrink: 0;
 }
 
 @media (max-width: 1024px) {

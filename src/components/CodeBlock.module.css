@@ -67,7 +67,16 @@
   margin: 0;
   padding: 1.25rem;
   overflow-x: auto;
-  background: rgba(0, 0, 0, 0.2);
+  background: #0a0f1e;
+}
+
+[data-theme='light'] .codeBlock {
+  border-color: rgba(0, 0, 0, 0.12);
+}
+
+[data-theme='light'] .header {
+  background: #eef2f7;
+  border-color: rgba(0, 0, 0, 0.12);
 }
 
 .code {

@@ -14,11 +14,12 @@ export default function AdSenseAd({ slot, format = 'auto', layout = '', height =
       setClientId(adsenseId);
       
       // Load Google AdSense script dynamically if not already loaded
-      if (!window.adsbygoogle) {
+      if (!window.adsbygoogle && !document.querySelector('script[data-afh-adsense]')) {
         const script = document.createElement('script');
         script.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseId}`;
         script.async = true;
         script.crossOrigin = 'anonymous';
+        script.setAttribute('data-afh-adsense', 'true');
         document.head.appendChild(script);
       }
       

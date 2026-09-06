@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Menu, X, BookOpen, User, Phone, Home, Sparkles } from 'lucide-react';
+import ThemeToggle from './ThemeToggle';
 import styles from './Header.module.css';
 
 export default function Header() {
@@ -50,14 +51,17 @@ export default function Header() {
           })}
         </nav>
 
-        {/* Mobile Toggle Button */}
-        <button
-          className={styles.mobileToggle}
-          onClick={toggleMenu}
-          aria-label={isOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
-        >
-          {isOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        {/* Right-side actions: theme toggle + mobile menu button */}
+        <div className={styles.actions}>
+          <ThemeToggle />
+          <button
+            className={styles.mobileToggle}
+            onClick={toggleMenu}
+            aria-label={isOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
+          >
+            {isOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
 
         {/* Mobile Navigation Drawer */}
         <div className={`${styles.mobileDrawer} ${isOpen ? styles.drawerOpen : ''}`}>
