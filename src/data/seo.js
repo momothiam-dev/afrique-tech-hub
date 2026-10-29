@@ -46,7 +46,7 @@ export const articleSeo = {
   'pourquoi-python-est-le-langage-ideal': {
     title: "Pourquoi apprendre Python en 2026 (débutant)",
     description:
-      "Python est le langage le plus recommandé pour débuter. Découvrez pourquoi, quels métiers il ouvre (IA, data, web) et un plan d'apprentissage gratuit en 4 phases.",
+      "Python gratuit pour débuter : syntaxe simple, premiers exercices concrets et plan d'apprentissage en 4 phases. Aucune installation complexe requise.",
     faqs: [],
   },
   'comment-utiliser-chatgpt-pour-coder-plus-vite': {
@@ -263,9 +263,9 @@ export const articleSeo = {
     faqs: [],
   },
   'comment-optimiser-profil-linkedin-trouver-emploi-tech': {
-    title: "Optimiser son profil LinkedIn pour la tech",
+    title: "Optimiser profil LinkedIn pour recruteurs Suisse",
     description:
-      "Titre, mots-clés, projets, recommandations et prospection : les optimisations concrètes pour attirer les recruteurs tech sur LinkedIn.",
+      "Guide complet : photo, titre, compétences pour recruteurs suisses. Gratuit, sans inscription, +200 000 professionnels africains ont suivi ce guide.",
     updated: '2026-10-24',
     faqs: [
       {

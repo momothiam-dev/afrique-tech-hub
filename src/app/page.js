@@ -4,17 +4,17 @@ import { SITE_NAME, SITE_URL, DEFAULT_OG_IMAGE } from '../data/seo';
 
 export const metadata = {
   title: {
-    absolute: "Afrique Tech Hub — Tech, bourses et travail en ligne",
+    absolute: "Afrique Tech Hub — 25 guides · Bourses 2027 · Travail distance",
   },
   description:
-    "Guides gratuits pour apprendre la tech, décrocher une bourse et travailler en ligne depuis l'Afrique francophone : développement web, IA, freelancing et études.",
+    "25 guides gratuits pour apprendre le dev web et l'IA, financer études bourses 2027, et travailler distance en Afrique. Gratuit, sans inscription.",
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "Afrique Tech Hub — Tech, bourses et travail en ligne",
+    title: "Afrique Tech Hub — 25 guides gratuits · Bourses 2027 · Travail à distance",
     description:
-      "Guides gratuits pour apprendre la tech, décrocher une bourse et travailler en ligne depuis l'Afrique francophone.",
+      "25 guides gratuits pour apprendre le développement web et l'IA, financer vos études avec des bourses 2027, et travailler à distance en Afrique. Tout est gratuit, sans inscription.",
     url: SITE_URL,
     siteName: SITE_NAME,
     images: [
@@ -30,9 +30,9 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Afrique Tech Hub — Tech, bourses et travail en ligne",
+    title: "Afrique Tech Hub — 25 guides gratuits · Bourses 2027 · Travail à distance",
     description:
-      "Guides gratuits pour apprendre la tech, décrocher une bourse et travailler en ligne depuis l'Afrique francophone.",
+      "25 guides gratuits pour apprendre le développement web et l'IA, financer vos études avec des bourses 2027, et travailler à distance en Afrique. Tout est gratuit, sans inscription.",
     images: [DEFAULT_OG_IMAGE],
   },
 };
