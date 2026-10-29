@@ -1,12 +1,10 @@
-/* Import modern fonts from Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap');
-
 :root {
   color-scheme: dark;
 
   /* Premium Dark Tech Palette */
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-heading: 'Outfit', var(--font-sans);
+  /* Fonts are self-hosted through next/font (see app/layout.js) */
+  --font-sans: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-heading: var(--font-outfit), var(--font-sans);
 
   --primary: #3b82f6;
   --primary-rgb: 59, 130, 246;
@@ -100,7 +98,7 @@ html {
 body {
   font-family: var(--font-sans);
   background-color: var(--bg-dark);
-  background-image: radial-gradient(rgba(7, 10, 19, 0.2) 0%, rgba(7, 10, 19, 0.8) 100%), url('/dark_tech_bg.png');
+  background-image: radial-gradient(rgba(7, 10, 19, 0.35) 0%, rgba(7, 10, 19, 0.85) 100%), url('/dark-tech-bg.webp');
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -343,4 +341,11 @@ main {
 
 .animate-fade-in {
   animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Fixed backgrounds are expensive on mobile GPUs: let the image scroll there. */
+@media (max-width: 768px) {
+  body {
+    background-attachment: scroll;
+  }
 }

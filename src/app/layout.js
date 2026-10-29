@@ -1,30 +1,47 @@
+import { Inter, Outfit } from 'next/font/google';
 import "./globals.css";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import BackToTop from "../components/BackToTop";
 import SiteScripts from "../components/SiteScripts";
+import { SITE_NAME, SITE_URL, DEFAULT_OG_IMAGE } from "../data/seo";
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap',
+});
+
+const outfit = Outfit({
+  subsets: ['latin'],
+  variable: '--font-outfit',
+  display: 'swap',
+});
 
 export const metadata = {
-  metadataBase: new URL('https://afrique-tech-hub.vercel.app'),
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: "Afrique Tech Hub — Tech, Bourses & Opportunités en Afrique",
-    template: "%s — Afrique Tech Hub"
+    default: "Afrique Tech Hub — Tech, bourses & opportunités",
+    template: "%s — Afrique Tech Hub",
   },
-  description: "Apprenez le développement web, l'intelligence artificielle et découvrez les meilleures bourses d'études et opportunités de travail en ligne depuis l'Afrique francophone.",
+  description:
+    "Guides gratuits pour apprendre la tech, décrocher une bourse et travailler en ligne depuis l'Afrique francophone : développement web, IA, freelancing et études.",
   keywords: [
-    "comment gagner de l'argent en ligne Afrique",
-    "meilleurs sites freelancing débutant",
-    "bourse d'étude gratuite 2026",
-    "apprendre Laravel gratuitement",
-    "travail a distance",
+    "tech Afrique francophone",
+    "gagner de l'argent en ligne Afrique",
+    "bourse d'étude 2027",
+    "apprendre le développement web",
     "formation tech gratuite",
-    "alx africa",
-    "intelligence artificielle",
-    "devenir freelance"
+    "travail à distance Afrique",
+    "freelancing Afrique",
+    "intelligence artificielle Afrique",
+    "ALX Africa",
+    "métiers tech",
   ],
-  authors: [{ name: "Afrique Tech Hub Editorial" }],
+  authors: [{ name: "Afrique Tech Hub Editorial", url: `${SITE_URL}/about` }],
   creator: "Afrique Tech Hub Team",
   publisher: "Afrique Tech Hub",
+  category: "education",
   formatDetection: {
     email: false,
     address: false,
@@ -33,20 +50,18 @@ export const metadata = {
   icons: {
     icon: "/favicon.ico",
   },
-  alternates: {
-    canonical: "/",
-  },
   openGraph: {
-    title: "Afrique Tech Hub — Tech, Bourses & Opportunités en Afrique",
-    description: "Apprenez le développement web, l'intelligence artificielle et découvrez les meilleures bourses d'études et opportunités de travail en ligne depuis l'Afrique francophone.",
-    url: "https://afrique-tech-hub.vercel.app",
-    siteName: "Afrique Tech Hub",
+    title: "Afrique Tech Hub — Tech, bourses & opportunités",
+    description:
+      "Guides gratuits pour apprendre la tech, décrocher une bourse et travailler en ligne depuis l'Afrique francophone.",
+    url: SITE_URL,
+    siteName: SITE_NAME,
     images: [
       {
-        url: "/dark_tech_bg.png",
+        url: DEFAULT_OG_IMAGE,
         width: 1200,
         height: 630,
-        alt: "Afrique Tech Hub Banner",
+        alt: "Afrique Tech Hub — guides tech, bourses et opportunités",
       },
     ],
     locale: "fr_FR",
@@ -54,9 +69,10 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Afrique Tech Hub — Tech, Bourses & Opportunités en Afrique",
-    description: "Apprenez le développement web, l'intelligence artificielle et découvrez les meilleures bourses d'études et opportunités de travail en ligne depuis l'Afrique francophone.",
-    images: ["/dark_tech_bg.png"],
+    title: "Afrique Tech Hub — Tech, bourses & opportunités",
+    description:
+      "Guides gratuits pour apprendre la tech, décrocher une bourse et travailler en ligne depuis l'Afrique francophone.",
+    images: [DEFAULT_OG_IMAGE],
     creator: "@AfriqueTechHub",
   },
   robots: {
@@ -76,12 +92,24 @@ export default function RootLayout({ children }) {
   const organizationJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    name: 'Afrique Tech Hub',
-    url: 'https://afrique-tech-hub.vercel.app',
-    logo: 'https://afrique-tech-hub.vercel.app/dark_tech_bg.png',
-    description: 'Plateforme éducative dédiée à la jeunesse francophone africaine : développement web, intelligence artificielle, bourses d\'études et opportunités de freelancing.',
+    '@id': `${SITE_URL}/#organization`,
+    name: SITE_NAME,
+    url: SITE_URL,
+    logo: {
+      '@type': 'ImageObject',
+      url: `${SITE_URL}/logo.png`,
+      width: 512,
+      height: 512,
+    },
+    description:
+      "Plateforme éducative indépendante dédiée à la jeunesse francophone africaine : développement web, intelligence artificielle, bourses d'études et opportunités de freelancing.",
     foundingDate: '2026',
-    sameAs: [],
+    email: 'contact@afriquetechhub.com',
+    knowsLanguage: ['fr'],
+    areaServed: {
+      '@type': 'Place',
+      name: 'Afrique francophone',
+    },
     contactPoint: {
       '@type': 'ContactPoint',
       email: 'contact@afriquetechhub.com',
@@ -98,25 +126,33 @@ export default function RootLayout({ children }) {
   const websiteJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    name: 'Afrique Tech Hub',
-    url: 'https://afrique-tech-hub.vercel.app',
-    description: 'Apprenez le développement web, l\'intelligence artificielle et découvrez les meilleures bourses d\'études et opportunités de travail en ligne depuis l\'Afrique francophone.',
+    '@id': `${SITE_URL}/#website`,
+    name: SITE_NAME,
+    url: SITE_URL,
+    description:
+      "Guides gratuits pour apprendre la tech, décrocher une bourse et travailler en ligne depuis l'Afrique francophone.",
     inLanguage: 'fr',
+    publisher: {
+      '@id': `${SITE_URL}/#organization`,
+    },
     potentialAction: {
       '@type': 'SearchAction',
-      target: 'https://afrique-tech-hub.vercel.app/blog?search={search_term_string}',
+      target: `${SITE_URL}/blog?search={search_term_string}`,
       'query-input': 'required name=search_term_string',
     },
   };
 
   return (
-    <html lang="fr" data-theme="dark" suppressHydrationWarning>
+    <html
+      lang="fr"
+      data-theme="dark"
+      className={`${inter.variable} ${outfit.variable}`}
+      suppressHydrationWarning
+    >
       <head>
         <meta name="color-scheme" content="dark light" />
         <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#070a13" />
         <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8fafc" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         {/* Apply saved theme before first paint to avoid a flash of the wrong theme */}
         <script
           dangerouslySetInnerHTML={{

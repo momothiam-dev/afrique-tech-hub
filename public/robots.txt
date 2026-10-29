@@ -1,9 +1,0 @@
-# *
-User-agent: *
-Allow: /
-
-# Host
-Host: https://afrique-tech-hub.vercel.app
-
-# Sitemaps
-Sitemap: https://afrique-tech-hub.vercel.app/sitemap.xml

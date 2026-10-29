@@ -1,28 +1,54 @@
 import Link from 'next/link';
 import { Award, Target, Users, BookOpen, GraduationCap, Globe } from 'lucide-react';
+import { SITE_NAME, SITE_URL, authorProfiles } from '../../data/seo';
 import styles from './about.module.css';
 
 export const metadata = {
-  title: "À Propos",
-  description: "Découvrez la mission d'Afrique Tech Hub : informer et former gratuitement la jeunesse francophone africaine aux métiers du numérique et aux opportunités de bourses.",
+  title: { absolute: "À propos d'Afrique Tech Hub : mission et équipe" },
+  description: "Qui sommes-nous ? Découvrez la mission d'Afrique Tech Hub et son équipe éditoriale : guides tech, bourses d'études et travail à distance pour l'Afrique francophone.",
   alternates: {
     canonical: "/about",
   },
   openGraph: {
-    title: "À Propos — Afrique Tech Hub",
-    description: "Découvrez la mission d'Afrique Tech Hub : informer et former gratuitement la jeunesse francophone africaine aux métiers du numérique et aux opportunités de bourses.",
-    url: "https://afrique-tech-hub.vercel.app/about",
+    title: "À propos d'Afrique Tech Hub : mission et équipe",
+    description: "Découvrez la mission d'Afrique Tech Hub et son équipe éditoriale : guides tech, bourses d'études et travail à distance pour l'Afrique francophone.",
+    url: `${SITE_URL}/about`,
   },
   twitter: {
     card: "summary",
-    title: "À Propos — Afrique Tech Hub",
-    description: "Découvrez la mission d'Afrique Tech Hub : informer et former gratuitement la jeunesse francophone africaine aux métiers du numérique.",
+    title: "À propos d'Afrique Tech Hub",
+    description: "Découvrez la mission d'Afrique Tech Hub et son équipe éditoriale.",
   },
 };
 
 export default function About() {
+  const aboutJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'AboutPage',
+    name: "À propos d'Afrique Tech Hub",
+    url: `${SITE_URL}/about`,
+    inLanguage: 'fr',
+    mainEntity: {
+      '@type': 'Organization',
+      '@id': `${SITE_URL}/#organization`,
+      name: SITE_NAME,
+      url: SITE_URL,
+      employee: Object.entries(authorProfiles).map(([name, profile]) => ({
+        '@type': 'Person',
+        name,
+        jobTitle: profile.role,
+        description: profile.bio,
+        url: `${SITE_URL}/about#${profile.anchor}`,
+      })),
+    },
+  };
+
   return (
     <div className={styles.main}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutJsonLd) }}
+      />
       {/* Page Header */}
       <section className={styles.header}>
         <div className={styles.headerContainer}>
@@ -46,13 +72,13 @@ export default function About() {
                 <Target size={22} className={styles.titleIcon} /> Notre Mission
               </h2>
               <p className={styles.paragraph}>
-                Fondé en 2026, **Afrique Tech Hub** est une initiative éducative et technologique indépendante ayant pour but de combler le fossé de l'information numérique dans l'espace francophone africain. 
+                Fondé en 2026, <strong>Afrique Tech Hub</strong> est une initiative éducative et technologique indépendante ayant pour but de combler le fossé de l&apos;information numérique dans l&apos;espace francophone africain. 
               </p>
               <p className={styles.paragraph}>
                 Nous croyons fermement que l'accès à une information de qualité, à des tutoriels gratuits et à des opportunités concrètes (freelancing, bourses d'études, télétravail) peut changer des vies et participer activement à la réduction du chômage des jeunes sur le continent.
               </p>
               <p className={styles.paragraph}>
-                Notre ligne éditoriale est stricte : **pas de promesses de gains faciles ou d'arnaques**. Nous ne publions que des guides concrets, basés sur des compétences réelles et des plateformes vérifiées.
+                Notre ligne éditoriale est stricte : <strong>pas de promesses de gains faciles ou d&apos;arnaques</strong>. Nous ne publions que des guides concrets, basés sur des compétences réelles et des plateformes vérifiées.
               </p>
             </div>
 
@@ -60,7 +86,7 @@ export default function About() {
               <div className={`${styles.statsCard} glass-card`}>
                 <div className={styles.statItem}>
                   <BookOpen className={styles.statIcon} />
-                  <span className={styles.statNumber}>20+</span>
+                  <span className={styles.statNumber}>25+</span>
                   <span className={styles.statLabel}>Guides complets de haut niveau</span>
                 </div>
                 <div className={styles.statItem}>
@@ -87,7 +113,7 @@ export default function About() {
             </p>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem' }}>
               {/* Arona Diallo */}
-              <div className="glass-card" style={{ padding: '2rem', textAlign: 'center', borderRadius: '16px' }}>
+              <div className="glass-card" id="arona-diallo" style={{ padding: '2rem', textAlign: 'center', borderRadius: '16px' }}>
                 <div style={{ width: '80px', height: '80px', borderRadius: '50%', background: 'var(--primary)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2rem', fontWeight: 'bold', margin: '0 auto 1rem' }}>AD</div>
                 <h3 style={{ fontSize: '1.25rem', fontWeight: '600', marginBottom: '0.5rem', color: 'var(--text-bright)' }}>Arona Diallo</h3>
                 <p style={{ fontSize: '0.875rem', color: 'var(--primary)', marginBottom: '1rem', fontWeight: '500' }}>Expert E-commerce & Freelancing</p>
@@ -97,7 +123,7 @@ export default function About() {
               </div>
 
               {/* Koffi Mensah */}
-              <div className="glass-card" style={{ padding: '2rem', textAlign: 'center', borderRadius: '16px' }}>
+              <div id="koffi-mensah" className="glass-card" style={{ padding: '2rem', textAlign: 'center', borderRadius: '16px', scrollMarginTop: '100px' }}>
                 <div style={{ width: '80px', height: '80px', borderRadius: '50%', background: 'var(--secondary)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2rem', fontWeight: 'bold', margin: '0 auto 1rem' }}>KM</div>
                 <h3 style={{ fontSize: '1.25rem', fontWeight: '600', marginBottom: '0.5rem', color: 'var(--text-bright)' }}>Koffi Mensah</h3>
                 <p style={{ fontSize: '0.875rem', color: 'var(--secondary)', marginBottom: '1rem', fontWeight: '500' }}>Ingénieur Logiciel & IA</p>
@@ -107,7 +133,7 @@ export default function About() {
               </div>
 
               {/* Mariama Sow */}
-              <div className="glass-card" style={{ padding: '2rem', textAlign: 'center', borderRadius: '16px' }}>
+              <div id="mariama-sow" className="glass-card" style={{ padding: '2rem', textAlign: 'center', borderRadius: '16px', scrollMarginTop: '100px' }}>
                 <div style={{ width: '80px', height: '80px', borderRadius: '50%', background: 'var(--accent)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2rem', fontWeight: 'bold', margin: '0 auto 1rem' }}>MS</div>
                 <h3 style={{ fontSize: '1.25rem', fontWeight: '600', marginBottom: '0.5rem', color: 'var(--text-bright)' }}>Mariama Sow</h3>
                 <p style={{ fontSize: '0.875rem', color: 'var(--accent)', marginBottom: '1rem', fontWeight: '500' }}>Spécialiste Orientation & Bourses</p>
@@ -151,7 +177,7 @@ export default function About() {
           </div>
 
           {/* Join the movement banner */}
-          <div className={`${styles.joinBanner} glass-card`}>
+          <div id="equipe" className={`${styles.joinBanner} glass-card`} style={{ scrollMarginTop: '100px' }}>
             <h3 className={styles.joinTitle}>Rejoignez le mouvement</h3>
             <p className={styles.joinText}>
               Vous êtes rédacteur passionné, développeur ou spécialiste de l'orientation académique ? Vous souhaitez collaborer avec nous et publier des articles utiles sur notre plateforme ? Contactez notre équipe dès aujourd'hui !

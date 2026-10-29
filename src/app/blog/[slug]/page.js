@@ -1,14 +1,28 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { Clock, Calendar, ArrowLeft, ChevronRight, BookOpen, User } from 'lucide-react';
+import {
+  Clock,
+  Calendar,
+  ArrowLeft,
+  ArrowRight,
+  ChevronRight,
+  BookOpen,
+  User,
+  RefreshCw,
+  HelpCircle,
+  Lightbulb,
+} from 'lucide-react';
 import { articles, categories } from '../../../data/articles';
 import { articleVisuals } from '../../../data/articleVisuals';
+import {
+  SITE_NAME,
+  SITE_URL,
+  DEFAULT_OG_IMAGE,
+  authorProfiles,
+  getArticleSeo,
+} from '../../../data/seo';
 import AdSenseAd from '../../../components/AdSenseAd';
-import CodeBlock from '../../../components/CodeBlock';
-import StepGuide from '../../../components/StepGuide';
-import ComparisonTable from '../../../components/ComparisonTable';
-import Infographic from '../../../components/Infographic';
-import ShareButtons from './ShareButtons'; // Client component for sharing action
+import ShareButtons from './ShareButtons';
 import ReadingProgress from '../../../components/ReadingProgress';
 import styles from './article.module.css';
 
@@ -20,37 +34,47 @@ export async function generateMetadata({ params }) {
   if (!article) {
     return {
       title: "Article non trouvé",
+      robots: { index: false, follow: false },
     };
   }
 
+  const seo = getArticleSeo(article);
+  const category = categories.find((cat) => cat.id === article.category);
+
   return {
-    title: article.title,
-    description: article.description,
-    keywords: article.seoKeywords,
+    title: { absolute: seo.title },
+    description: seo.description,
+    keywords: seo.keywords,
+    authors: [{ name: article.author }],
     alternates: {
       canonical: `/blog/${article.slug}`,
     },
     openGraph: {
-      title: article.title,
-      description: article.description,
+      title: seo.title,
+      description: seo.description,
       type: "article",
       publishedTime: article.date,
+      modifiedTime: seo.updated || article.date,
       authors: [article.author],
-      url: `https://afrique-tech-hub.vercel.app/blog/${article.slug}`,
+      section: category ? category.name : "Tech",
+      tags: seo.keywords,
+      url: `${SITE_URL}/blog/${article.slug}`,
+      siteName: SITE_NAME,
+      locale: "fr_FR",
       images: [
         {
-          url: "/dark_tech_bg.png",
+          url: DEFAULT_OG_IMAGE,
           width: 1200,
           height: 630,
-          alt: article.title,
+          alt: seo.title,
         },
       ],
     },
     twitter: {
       card: "summary_large_image",
-      title: article.title,
-      description: article.description,
-      images: ["/dark_tech_bg.png"],
+      title: seo.title,
+      description: seo.description,
+      images: [DEFAULT_OG_IMAGE],
     },
   };
 }
@@ -69,7 +93,6 @@ function parseContentToHtml(content, slug) {
   let currentList = [];
   let inList = false;
   const visuals = articleVisuals[slug];
-  let afterContentAdded = false;
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i].trim();
@@ -97,7 +120,7 @@ function parseContentToHtml(content, slug) {
       const text = line.replace('## ', '');
       const id = text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
       renderedElements.push(<h2 key={`h2-${i}`} id={id} className={styles.articleH2}>{text}</h2>);
-      
+
       // Inject visual blocks after specific headings
       if (visuals?.infographics) {
         visuals.infographics.forEach((block, vi) => {
@@ -173,124 +196,243 @@ function parseContentToHtml(content, slug) {
 
 // Simple inline styling helper for Bold (**text**) or Code (`code`)
 function parseInlineStyling(text) {
-  const parts = [];
-  let currentStr = text;
-  
-  const boldRegex = /\*\*(.*?)\*\*/g;
-  const codeRegex = /`(.*?)`/g;
-  
-  let match;
-  let lastIndex = 0;
-  
   const tokens = [];
   let id = 0;
   const regex = /(\*\*.*?\*\*|`.*?`)/g;
   const matches = [...text.matchAll(regex)];
-  
+
   if (matches.length === 0) {
     return text;
   }
-  
+
+  let lastIndex = 0;
   matches.forEach((match) => {
     const index = match.index;
     const matchText = match[0];
-    
-    // Add text before match
+
     if (index > lastIndex) {
       tokens.push(text.substring(lastIndex, index));
     }
-    
-    // Add formatted match
+
     if (matchText.startsWith('**') && matchText.endsWith('**')) {
       tokens.push(<strong key={id++}>{matchText.slice(2, -2)}</strong>);
     } else if (matchText.startsWith('`') && matchText.endsWith('`')) {
       tokens.push(<code key={id++} className={styles.inlineCode}>{matchText.slice(1, -1)}</code>);
     }
-    
+
     lastIndex = index + matchText.length;
   });
-  
+
   if (lastIndex < text.length) {
     tokens.push(text.substring(lastIndex));
   }
-  
+
   return tokens;
 }
 
 export default async function Article({ params }) {
   const { slug } = await params;
-  
-  // Find current article
+
   const article = articles.find((art) => art.slug === slug);
 
   if (!article) {
     notFound();
   }
 
-  // Extract H2 headings for Table of Contents
+  const seo = getArticleSeo(article);
+  const category = categories.find((cat) => cat.id === article.category);
+  const author = authorProfiles[article.author] || {
+    role: "Contributeur",
+    bio: "Membre de l'équipe éditoriale d'Afrique Tech Hub.",
+    expertise: [],
+    initials: "ATH",
+    anchor: "equipe",
+  };
+
+  // Extract H2 headings for the table of contents and the quick summary
   const headings = article.content
     .split('\n')
-    .filter(line => line.startsWith('## '))
-    .map(line => {
+    .filter((line) => line.startsWith('## '))
+    .map((line) => {
       const text = line.replace('## ', '').trim();
       const id = text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
       return { text, id };
     });
 
-  // Fetch 3 related articles
-  const relatedArticles = articles
-    .filter((art) => art.category === article.category && art.id !== article.id)
+  const summaryHeadings = headings
+    .filter((heading) => !/^conclusion/i.test(heading.text))
+    .slice(0, 4);
+
+  // Same-category guides first, then cross-category guides for a wider internal mesh.
+  const sameCategory = articles.filter(
+    (art) => art.category === article.category && art.id !== article.id
+  );
+  const crossCategory = articles
+    .filter((art) => art.category !== article.category)
+    .sort((a, b) => new Date(b.date) - new Date(a.date));
+  const relatedArticles = [...sameCategory, ...crossCategory].slice(0, 4);
+
+  const popularArticles = articles
+    .filter((art) => art.popular && art.id !== article.id)
     .slice(0, 3);
 
+  const currentIndex = articles.findIndex((art) => art.id === article.id);
+  const previousArticle = currentIndex > 0 ? articles[currentIndex - 1] : null;
+  const nextArticle =
+    currentIndex >= 0 && currentIndex < articles.length - 1
+      ? articles[currentIndex + 1]
+      : null;
+
   const getBadgeClass = (catId) => {
-    const found = categories.find(c => c.id === catId);
+    const found = categories.find((c) => c.id === catId);
     return found ? found.badgeClass : 'badge-dev';
   };
 
   const getCategoryName = (catId) => {
-    const found = categories.find(c => c.id === catId);
+    const found = categories.find((c) => c.id === catId);
     return found ? found.name : 'Tech';
   };
 
   const formattedDate = new Date(article.date).toLocaleDateString('fr-FR', {
     day: 'numeric',
     month: 'long',
-    year: 'numeric'
+    year: 'numeric',
   });
 
-  const jsonLd = {
+  const formattedUpdated = seo.updated
+    ? new Date(seo.updated).toLocaleDateString('fr-FR', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+      })
+    : null;
+
+  const wordCount = article.content.split(/\s+/).filter(Boolean).length;
+
+  const articleJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Article',
+    '@id': `${SITE_URL}/blog/${article.slug}#article`,
     headline: article.title,
-    description: article.description,
+    description: seo.description,
+    image: [`${SITE_URL}${DEFAULT_OG_IMAGE}`],
+    datePublished: article.date,
+    dateModified: seo.updated || article.date,
     author: {
       '@type': 'Person',
       name: article.author,
+      description: author.bio,
+      url: `${SITE_URL}/about#${author.anchor}`,
     },
-    datePublished: article.date,
-    dateModified: article.date,
-    image: [
-      `https://afrique-tech-hub.vercel.app/dark_tech_bg.png`
+    publisher: {
+      '@type': 'Organization',
+      name: SITE_NAME,
+      url: SITE_URL,
+      logo: {
+        '@type': 'ImageObject',
+        url: `${SITE_URL}/logo.png`,
+        width: 512,
+        height: 512,
+      },
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `${SITE_URL}/blog/${article.slug}`,
+    },
+    articleSection: category ? category.name : 'Tech',
+    keywords: seo.keywords.join(', '),
+    wordCount,
+    inLanguage: 'fr',
+    isAccessibleForFree: true,
+  };
+
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Accueil',
+        item: SITE_URL,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Guides',
+        item: `${SITE_URL}/blog`,
+      },
+      ...(category
+        ? [
+            {
+              '@type': 'ListItem',
+              position: 3,
+              name: category.name,
+              item: `${SITE_URL}/category/${category.id}`,
+            },
+          ]
+        : []),
+      {
+        '@type': 'ListItem',
+        position: category ? 4 : 3,
+        name: article.title,
+        item: `${SITE_URL}/blog/${article.slug}`,
+      },
     ],
   };
+
+  const faqJsonLd =
+    seo.faqs.length > 0
+      ? {
+          '@context': 'https://schema.org',
+          '@type': 'FAQPage',
+          mainEntity: seo.faqs.map((faq) => ({
+            '@type': 'Question',
+            name: faq.q,
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: faq.a,
+            },
+          })),
+        }
+      : null;
 
   return (
     <div className={styles.main}>
       <ReadingProgress />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
+      {faqJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        />
+      )}
+
       {/* Article Header Container */}
       <section className={styles.header}>
         <div className={styles.headerContainer}>
-          <div className={styles.breadcrumbs}>
+          <nav className={styles.breadcrumbs} aria-label="Fil d'Ariane">
             <Link href="/" className={styles.breadcrumbLink}>Accueil</Link>
             <ChevronRight size={12} className={styles.breadIcon} />
             <Link href="/blog" className={styles.breadcrumbLink}>Guides</Link>
+            {category && (
+              <>
+                <ChevronRight size={12} className={styles.breadIcon} />
+                <Link href={`/category/${category.id}`} className={styles.breadcrumbLink}>
+                  {category.name}
+                </Link>
+              </>
+            )}
             <ChevronRight size={12} className={styles.breadIcon} />
             <span className={styles.breadcrumbActive}>{article.title}</span>
-          </div>
+          </nav>
 
           <span className={`badge ${getBadgeClass(article.category)} ${styles.articleBadge}`}>
             {getCategoryName(article.category)}
@@ -300,11 +442,19 @@ export default async function Article({ params }) {
 
           <div className={styles.metaRow}>
             <span className={styles.metaItem}>
-              <User size={14} /> Par {article.author}
+              <User size={14} /> Par{' '}
+              <Link href={`/about#${author.anchor}`} className={styles.metaLink}>
+                {article.author}
+              </Link>
             </span>
             <span className={styles.metaItem}>
-              <Calendar size={14} /> {formattedDate}
+              <Calendar size={14} /> Publié le {formattedDate}
             </span>
+            {formattedUpdated && (
+              <span className={styles.metaItem}>
+                <RefreshCw size={14} /> Mis à jour le {formattedUpdated}
+              </span>
+            )}
             <span className={styles.metaItem}>
               <Clock size={14} /> {article.readTime} de lecture
             </span>
@@ -315,20 +465,51 @@ export default async function Article({ params }) {
       {/* Main Grid: Article content & TOC sidebar */}
       <section className={styles.bodySection}>
         <div className={styles.bodyContainer}>
-          
           {/* Left Column: Post Content */}
           <div className={styles.contentCol}>
-            
             {/* Top simulated ad unit (horizontal) */}
             <AdSenseAd slot="article-top-banner" format="horizontal" />
 
             {/* Simulated Introduction / Lead paragraph */}
             <p className={styles.leadParagraph}>{article.description}</p>
 
+            {/* Quick summary derived from the article's own sections */}
+            {summaryHeadings.length > 0 && (
+              <div className={`${styles.takeaways} glass-card`}>
+                <h2 className={styles.takeawaysTitle}>
+                  <Lightbulb size={18} /> Au programme de ce guide
+                </h2>
+                <ul className={styles.takeawaysList}>
+                  {summaryHeadings.map((heading) => (
+                    <li key={heading.id}>
+                      <a href={`#${heading.id}`}>{heading.text}</a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
             {/* Parsed Rich Content */}
             <div className={styles.richContent}>
               {parseContentToHtml(article.content, slug)}
             </div>
+
+            {/* FAQ section with FAQPage structured data */}
+            {seo.faqs.length > 0 && (
+              <section className={styles.faqSection} id="faq" aria-labelledby="faq-title">
+                <h2 className={styles.faqTitle} id="faq-title">
+                  <HelpCircle size={22} className={styles.faqTitleIcon} /> Questions fréquentes
+                </h2>
+                <div className={styles.faqList}>
+                  {seo.faqs.map((faq, index) => (
+                    <details key={index} className={styles.faqItem}>
+                      <summary className={styles.faqQuestion}>{faq.q}</summary>
+                      <p className={styles.faqAnswer}>{faq.a}</p>
+                    </details>
+                  ))}
+                </div>
+              </section>
+            )}
 
             {/* Bottom simulated ad unit (horizontal) */}
             <AdSenseAd slot="article-bottom-banner" format="horizontal" />
@@ -336,23 +517,41 @@ export default async function Article({ params }) {
             {/* Share / Social Buttons */}
             <div className={`${styles.shareBlock} glass-card`}>
               <h4 className={styles.shareTitle}>Vous avez aimé ce guide ?</h4>
-              <p className={styles.shareText}>Partagez-le avec vos amis et proches pour qu'ils découvrent eux aussi ces opportunités digitales !</p>
+              <p className={styles.shareText}>
+                Partagez-le avec vos amis et proches pour qu&apos;ils découvrent eux aussi ces opportunités digitales !
+              </p>
               <ShareButtons title={article.title} />
             </div>
 
+            {/* Author box for E-E-A-T */}
+            <div className={`${styles.authorBox} glass-card`}>
+              <div className={styles.authorAvatar} aria-hidden="true">
+                {author.initials}
+              </div>
+              <div className={styles.authorContent}>
+                <p className={styles.authorEyebrow}>Rédigé et vérifié par</p>
+                <p className={styles.authorName}>
+                  <Link href={`/about#${author.anchor}`}>{article.author}</Link>
+                </p>
+                <p className={styles.authorRole}>{author.role}</p>
+                <p className={styles.authorBio}>{author.bio}</p>
+                <Link href={`/about#${author.anchor}`} className={styles.authorLink}>
+                  Voir l&apos;équipe éditoriale <ArrowRight size={13} />
+                </Link>
+              </div>
+            </div>
           </div>
 
           {/* Right Column: Table of Contents & Ads Sidebar */}
           <aside className={styles.sidebarCol}>
-            
             {/* Table of Contents */}
             {headings.length > 0 && (
               <div className={`${styles.tocWidget} glass-card`}>
                 <h3 className={styles.widgetTitle}>Table des matières</h3>
-                <nav className={styles.tocNav}>
+                <nav className={styles.tocNav} aria-label="Table des matières">
                   {headings.map((heading) => (
-                    <a 
-                      key={heading.id} 
+                    <a
+                      key={heading.id}
                       href={`#${heading.id}`}
                       className={styles.tocLink}
                     >
@@ -366,16 +565,35 @@ export default async function Article({ params }) {
             {/* Simulated Sidebar rectangle ad unit */}
             <AdSenseAd slot="article-sidebar" format="rectangle" />
 
+            {/* Popular guides for internal linking */}
+            {popularArticles.length > 0 && (
+              <div className={`${styles.widget} glass-card`}>
+                <h3 className={styles.widgetTitle}>Guides les plus lus</h3>
+                <div className={styles.sidebarLinks}>
+                  {popularArticles.map((popular) => (
+                    <Link
+                      key={popular.id}
+                      href={`/blog/${popular.slug}`}
+                      className={styles.sidebarLink}
+                    >
+                      <span className={`badge ${getBadgeClass(popular.category)}`}>
+                        {getCategoryName(popular.category)}
+                      </span>
+                      <span>{popular.title}</span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* Quick tips Widget */}
             <div className={`${styles.widget} glass-card`}>
-              <h3 className={styles.widgetTitle}>💡 Astuce de l'équipe</h3>
+              <h3 className={styles.widgetTitle}>💡 Astuce de l&apos;équipe</h3>
               <p className={styles.widgetText}>
                 Tous nos guides sont 100% gratuits. Pour ne rater aucune mise à jour, pensez à ajouter ce site à vos favoris en appuyant sur <kbd className={styles.kbd}>Ctrl + D</kbd> ou <kbd className={styles.kbd}>Cmd + D</kbd>.
               </p>
             </div>
-
           </aside>
-
         </div>
       </section>
 
@@ -385,7 +603,7 @@ export default async function Article({ params }) {
           <div className={styles.relatedContainer}>
             <h2 className={styles.relatedTitle}>
               <BookOpen size={22} className={styles.relatedIcon} />
-              Guides similaires qui pourraient vous intéresser
+              À lire ensuite
             </h2>
             <div className={styles.relatedGrid}>
               {relatedArticles.map((art) => (
@@ -402,11 +620,37 @@ export default async function Article({ params }) {
                     <Link href={`/blog/${art.slug}`}>{art.title}</Link>
                   </h3>
                   <Link href={`/blog/${art.slug}`} className={styles.relatedCardLink}>
-                    Lire l'article <ArrowLeft size={14} className={styles.arrowRotate} />
+                    Lire l&apos;article <ArrowLeft size={14} className={styles.arrowRotate} />
                   </Link>
                 </article>
               ))}
             </div>
+
+            {(previousArticle || nextArticle) && (
+              <nav className={styles.articleNav} aria-label="Navigation entre les guides">
+                {previousArticle ? (
+                  <Link href={`/blog/${previousArticle.slug}`} className={styles.articleNavLink}>
+                    <span className={styles.articleNavLabel}>
+                      <ArrowLeft size={13} /> Guide précédent
+                    </span>
+                    <span className={styles.articleNavTitle}>{previousArticle.title}</span>
+                  </Link>
+                ) : (
+                  <span />
+                )}
+                {nextArticle && (
+                  <Link
+                    href={`/blog/${nextArticle.slug}`}
+                    className={`${styles.articleNavLink} ${styles.articleNavNext}`}
+                  >
+                    <span className={styles.articleNavLabel}>
+                      Guide suivant <ArrowRight size={13} />
+                    </span>
+                    <span className={styles.articleNavTitle}>{nextArticle.title}</span>
+                  </Link>
+                )}
+              </nav>
+            )}
           </div>
         </section>
       )}

@@ -1,7 +1,14 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { Clock, Calendar, ArrowRight, ChevronRight, BookOpen, User } from 'lucide-react';
+import { Clock, Calendar, ArrowRight, ChevronRight, BookOpen, User, RefreshCw } from 'lucide-react';
 import { articles, categories } from '../../../data/articles';
+import {
+  SITE_NAME,
+  SITE_URL,
+  DEFAULT_OG_IMAGE,
+  categorySeo,
+  getArticleLastModified,
+} from '../../../data/seo';
 import { DevIllustration, AIIllustration, MoneyIllustration, ScholarshipIllustration, OppIllustration } from '../../../components/illustrations';
 import styles from './category.module.css';
 
@@ -16,29 +23,39 @@ const categoryIllustrations = {
 export async function generateMetadata({ params }) {
   const { slug } = await params;
   const category = categories.find((c) => c.id === slug);
+  const seo = categorySeo[slug];
 
   if (!category) {
-    return { title: "Catégorie non trouvée" };
+    return { title: "Catégorie non trouvée", robots: { index: false, follow: false } };
   }
 
-  const categoryArticles = articles.filter((a) => a.category === slug);
-
   return {
-    title: `${category.name} — Guides et Tutoriels Gratuits`,
-    description: `${category.description} Découvrez ${categoryArticles.length} guides pratiques et tutoriels gratuits sur ${category.name.toLowerCase()} pour la jeunesse africaine francophone.`,
+    title: { absolute: seo.title },
+    description: seo.description,
     alternates: {
       canonical: `/category/${slug}`,
     },
     openGraph: {
-      title: `${category.name} — Afrique Tech Hub`,
-      description: category.description,
-      url: `https://afrique-tech-hub.vercel.app/category/${slug}`,
+      title: `${seo.title} — Afrique Tech Hub`,
+      description: seo.description,
+      url: `${SITE_URL}/category/${slug}`,
+      siteName: SITE_NAME,
+      images: [
+        {
+          url: DEFAULT_OG_IMAGE,
+          width: 1200,
+          height: 630,
+          alt: category.name,
+        },
+      ],
+      locale: "fr_FR",
       type: "website",
     },
     twitter: {
       card: "summary_large_image",
-      title: `${category.name} — Afrique Tech Hub`,
-      description: category.description,
+      title: seo.title,
+      description: seo.description,
+      images: [DEFAULT_OG_IMAGE],
     },
   };
 }
@@ -52,6 +69,7 @@ export function generateStaticParams() {
 export default async function CategoryPage({ params }) {
   const { slug } = await params;
   const category = categories.find((c) => c.id === slug);
+  const seo = categorySeo[slug];
 
   if (!category) {
     notFound();
@@ -60,6 +78,17 @@ export default async function CategoryPage({ params }) {
   const categoryArticles = articles
     .filter((a) => a.category === slug)
     .sort((a, b) => new Date(b.date) - new Date(a.date));
+
+  const latestUpdate = categoryArticles.reduce((latest, article) => {
+    const date = getArticleLastModified(article);
+    return date > latest ? date : latest;
+  }, '2026-01-01');
+
+  const formattedUpdate = new Date(latestUpdate).toLocaleDateString('fr-FR', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  });
 
   const getBadgeClass = (catId) => {
     const found = categories.find(c => c.id === catId);
@@ -74,13 +103,15 @@ export default async function CategoryPage({ params }) {
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
-    name: `${category.name} — Afrique Tech Hub`,
-    description: category.description,
-    url: `https://afrique-tech-hub.vercel.app/category/${slug}`,
+    name: seo.title,
+    description: seo.description,
+    url: `${SITE_URL}/category/${slug}`,
+    dateModified: latestUpdate,
+    inLanguage: 'fr',
     isPartOf: {
       '@type': 'WebSite',
-      name: 'Afrique Tech Hub',
-      url: 'https://afrique-tech-hub.vercel.app',
+      name: SITE_NAME,
+      url: SITE_URL,
     },
     mainEntity: {
       '@type': 'ItemList',
@@ -88,10 +119,25 @@ export default async function CategoryPage({ params }) {
       itemListElement: categoryArticles.map((art, index) => ({
         '@type': 'ListItem',
         position: index + 1,
-        url: `https://afrique-tech-hub.vercel.app/blog/${art.slug}`,
+        url: `${SITE_URL}/blog/${art.slug}`,
         name: art.title,
       })),
     },
+  };
+
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Accueil', item: SITE_URL },
+      { '@type': 'ListItem', position: 2, name: 'Guides', item: `${SITE_URL}/blog` },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: category.name,
+        item: `${SITE_URL}/category/${slug}`,
+      },
+    ],
   };
 
   const Illustration = categoryIllustrations[slug];
@@ -102,27 +148,35 @@ export default async function CategoryPage({ params }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
 
       {/* Breadcrumbs */}
       <section className={styles.header}>
         <div className={styles.headerContainer}>
-          <div className={styles.breadcrumbs}>
+          <nav className={styles.breadcrumbs} aria-label="Fil d'Ariane">
             <Link href="/" className={styles.breadcrumbLink}>Accueil</Link>
             <ChevronRight size={12} className={styles.breadIcon} />
-            <Link href="/blog" className={styles.breadcrumbLink}>Blog</Link>
+            <Link href="/blog" className={styles.breadcrumbLink}>Guides</Link>
             <ChevronRight size={12} className={styles.breadIcon} />
             <span className={styles.breadcrumbActive}>{category.name}</span>
-          </div>
+          </nav>
 
           <div className={styles.headerWithIllustration}>
             <div className={styles.headerText}>
               <h1 className={styles.title}>
-                <span className="text-gradient">{category.name}</span>
+                <span className="text-gradient">{category.name}</span> : guides gratuits
               </h1>
               <p className={styles.subtitle}>{category.description}</p>
+              <p className={styles.intro}>{seo.intro}</p>
               <div className={styles.metaRow}>
                 <span className={styles.metaItem}>
-                  <BookOpen size={14} /> {categoryArticles.length} articles
+                  <BookOpen size={14} /> {categoryArticles.length} guides
+                </span>
+                <span className={styles.metaItem}>
+                  <RefreshCw size={14} /> Mis à jour le {formattedUpdate}
                 </span>
               </div>
             </div>

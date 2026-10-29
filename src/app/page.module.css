@@ -83,6 +83,27 @@
   justify-content: center;
 }
 
+.heroTrust {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
 /* Content Layout */
 .contentSection {
   padding: 4rem 0;
@@ -491,4 +512,13 @@
   .sidebar {
     grid-template-columns: 1fr;
   }
+}
+
+/* Editorial block */
+.editorialBlock {
+  width: 100%;
+}
+
+.richContent p:last-child {
+  margin-bottom: 0;
 }
